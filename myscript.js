@@ -32,6 +32,9 @@ document.onmousemove = function(e) {
     mouse_pos[1] = e.clientY;
 };
 
+var imgURL = chrome.extension.getURL("Chicken.gif");
+alert(imgURL);
+//document.body.style.cursor = 'url('+imgURL+')'; 
 function Chicken(x, y, id) {
     this.id = id;
     if(Math.random() > 0.5){this.H = 0;} else{this.H = 1;}
@@ -112,7 +115,7 @@ function updateChicks() {
     }
 }
 
-var chickens = makeChicks(5);
+var chickens = makeChicks(10);
 setInterval(updateChicks, refreshTime);
 //setInterval(doMove, refreshTime);
 

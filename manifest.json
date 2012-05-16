@@ -11,5 +11,9 @@
       "matches": ["https://www.google.com/*", "http://www.google.com/*"],
       "js":  ["myscript.js"]
     }
+  ],
+  "web_accessible_resources": [
+    "images/Chicken.gif",
+    "images/Link.gif"
   ]
 }

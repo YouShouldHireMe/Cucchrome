@@ -11,6 +11,10 @@ var hitRadius = 20;
 var pushRadius = 50;
 var imgWidth = 18;
 var imgHeight = 18;
+var chickURL = chrome.extension.getURL("images/Chicken.gif");
+var linkURL = chrome.extension.getURL("images/Link.gif");
+document.body.innerHTML+='<img style="position:absolute;display:none;cursor:none;z-index:9999999" width = 58px id="mycursor" src="'+linkURL+'" />';
+var chickens = makeChicks(1);
 
 function getDist(v) {
   return Math.sqrt(Math.pow(v[0],2) + Math.pow(v[1],2));
@@ -25,23 +29,14 @@ function normalize(v) {
     return v;
 }
 
-var chickURL = chrome.extension.getURL("images/Chicken.gif");
-var linkURL = chrome.extension.getURL("images/Link.gif");
-document.body.innerHTML+='<img style="position:absolute;display:none;cursor:none;" id="mycursor" src="'+linkURL+'" />';
-
 document.onmousemove = function(e) {
     mouse_vel[0] = e.clientX-mouse_pos[0];
     mouse_vel[1] = e.clientY-mouse_pos[1];
     mouse_pos[0] = e.clientX;
     mouse_pos[1] = e.clientY;
     var cur = document.getElementById('mycursor');
-    if (mouse_pos[0] > 100){
-        cur.style.display = "block";
-    } else {
-        cur.style.display = "none";
-    }
-    cur.style.left = mouse_pos[0] + "px";
-    cur.style.top = mouse_pos[1] + "px";
+    cur.style.left = (mouse_pos[0]-9) + "px";
+    cur.style.top = (mouse_pos[1]-9) + "px";
 
 };
 
@@ -71,6 +66,12 @@ function Chicken(x, y, type, id) {
     var distFromMouse = getDist(diff);
   
     if(distFromMouse < hitRadius) {
+      var cur = document.getElementById('mycursor');
+      cur.style.display = "block";
+      setTimeout(function(){cur.style.display = "none";}, 800);
+      cur.style.left = (mouse_pos[0]-9) + "px";
+      cur.style.top = (mouse_pos[1]-9) + "px";
+
       this.setHealth(this.health-1);
       toRtn[0] = (pos[0]+imgWidth/2);
       toRtn[1] = (pos[1]+imgHeight/2);
@@ -176,12 +177,10 @@ function addAngryChicks(numChick)
 }
 
 function updateChicks() {
-    console.log("NumChicks is " + chickens.length);
     for (var i = 0; i < chickens.length; i++) {
       chickens[i].doMove();
     }
 }
-var chickens = makeChicks(1);
 setInterval(updateChicks, refreshTime);
 //setInterval(doMove, refreshTime);
 
